@@ -17,3 +17,70 @@ body {
   align-items: flex-start;
   padding: 20px;
 }
+
+:root {
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --bg-main: #f0f4f8;
+  --bg-modal: #ffffff;
+  --primary-color: #3498db;
+  --primary-hover: #2980b9;
+  --secondary-color: #95a5a6;
+  --secondary-hover: #7f8c8d;
+  --text-main: #2c3e50;
+  --text-white: #ffffff;
+  --radius-sm: 6px;
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.app-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: var(--shadow-sm);
+
+  &:active { transform: scale(0.98); }
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  &:hover { background-color: var(--primary-hover); }
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--text-white);
+  &:hover { background-color: var(--secondary-hover); }
+}
+
+.game-scoreboard {
+  display: flex;
+  justify-content: space-between;
+  background: var(--bg-modal);
+  padding: 15px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  font-size: 1.1rem;
+
+  .counter-item { color: var(--text-main); }
+}
