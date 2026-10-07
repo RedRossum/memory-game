@@ -71,13 +71,13 @@ body {
 
 .btn-primary {
   background-color: var(--primary-color);
-  color: var(--text-white);
+  color: var(--bg-main);
   &:hover { background-color: var(--primary-hover); }
 }
 
 .btn-secondary {
   background-color: var(--secondary-color);
-  color: var(--text-white);
+  color: var(--bg-main);
   &:hover { background-color: var(--secondary-hover); }
 }
 
