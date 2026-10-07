@@ -1,5 +1,6 @@
 import './main.scss'
 import ElementBuilder from "./ElementBuilder.js";
+import Leaderboard from './Leaderboard';
 
 class Game {
     #cardData = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -17,10 +18,13 @@ class Game {
     #pairsCounterText = null;
     #gameGridContainer = null;
 
+    #leaderboardService = new Leaderboard();
+
     #shuffle(array) {
         const arr = [...array];
         const cryptoArray = new Uint32Array(arr.length);
         window.crypto.getRandomValues(cryptoArray);
+
         for (let i = arr.length - 1; i > 0; i--) {
             const j = cryptoArray[i] % (i + 1);
             [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -122,6 +126,17 @@ class Game {
         newGameHeaderBtn.addEventListener('click', this.startNewGame);
 
         this.startNewGame();
+        // test
+        document.body.appendChild(appContainer);
+        this.startNewGame();
+        this.#leaderboardService.save(25);
+        this.#leaderboardService.save(15);
+
+        const testTable = this.#leaderboardService.renderTableElement(() => {
+            console.log("ok")
+        });
+        document.body.append(testTable);
+        // ============================================================
     }
 }
 
