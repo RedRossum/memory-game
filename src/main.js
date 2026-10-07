@@ -2,7 +2,7 @@ import './main.scss'
 import ElementBuilder from "./ElementBuilder.js";
 import Leaderboard from './Leaderboard';
 import Modal from './Modal';
-const IMAGES = import.meta.glob('./images/*.png', { eager: true, as: 'url' });
+const IMAGES = import.meta.glob('./images/*.png', { eager: true});
 
 class Game {
     #cardData = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -55,7 +55,8 @@ class Game {
     };
 
     #createCardElement(value, index) {
-        const imgPath = IMAGES[`./images/${value}.png`];
+        const imageModule  = IMAGES[`./images/${value}.png`];
+        const imgPath = imageModule ? imageModule.default : '';
 
         const imgElement = ElementBuilder.createElement('img', {
             src: imgPath,
