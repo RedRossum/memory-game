@@ -29,6 +29,7 @@ body {
   --text-main: #2c3e50;
   --text-white: #ffffff;
   --bg-card-front: #2c3e50;
+  --bg-card-back: #ffffff;
   --radius-md: 12px;
   --radius-sm: 6px;
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -99,6 +100,7 @@ body {
 .game-card {
   cursor: pointer;
   aspect-ratio: 1 / 1;
+  perspective: 1000px;
 
   .card-inner {
     position: relative;
@@ -106,6 +108,43 @@ body {
     height: 100%;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
+    background-color: transparent;
+
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  &.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // front card
+  .card-front {
     background-color: var(--bg-card-front);
+    background-image:
+            radial-gradient(#{var(--primary-color)} 15%, transparent 16%),
+            radial-gradient(#{var(--primary-color)} 15%, transparent 16%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+  }
+
+  // back
+  .card-back {
+    background-color: var(--bg-card-back);
+    transform: rotateY(180deg);
+    font-size: 2.2rem;
+    user-select: none;
+    border: 3px solid var(--primary-color);
   }
 }
