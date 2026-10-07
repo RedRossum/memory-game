@@ -22,23 +22,23 @@ body {
 }
 
 :root {
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --bg-main: #f0f4f8;
-  --bg-modal: #ffffff;
-  --primary-color: #3498db;
-  --primary-hover: #2980b9;
-  --secondary-color: #95a5a6;
-  --secondary-hover: #7f8c8d;
-  --text-main: #2c3e50;
+  --font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  --bg-main: #060810;
+  --bg-modal: #0d1122;
+  --primary-color: #00f2fe;
+  --primary-hover: #00b8c4;
+  --secondary-color: #ff007f;
+  --secondary-hover: #cc0066;
+  --text-main: #00f2fe;
   --text-white: #ffffff;
-  --bg-card-front: #2c3e50;
-  --bg-card-back: #ffffff;
-  --radius-md: 12px;
-  --radius-sm: 6px;
-  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --bg-overlay: rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.15);
-  --text-light: #7f8c8d;
+  --bg-card-front: #0b0d19;
+  --bg-card-back: #0d1122;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+  --shadow-sm: 0 0 10px rgba(0, 242, 254, 0.2);
+  --bg-overlay: rgba(6, 8, 16, 0.85);
+  --shadow-md: 0 0 25px rgba(0, 242, 254, 0.4);
+  --text-light: #ff007f;
 }
 
 .app-container {
@@ -140,11 +140,26 @@ body {
   .card-front {
     background-color: var(--bg-card-front);
     background-image:
-            radial-gradient(#{var(--primary-color)} 15%, transparent 16%),
-            radial-gradient(#{var(--primary-color)} 15%, transparent 16%);
-    background-size: 16px 16px;
-    background-position: 0 0, 8px 8px;
-    z-index: 2
+            linear-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 254, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center;
+
+    border: 2px solid #00f2fe;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5),
+    inset 0 0 10px rgba(0, 242, 254, 0.3);
+
+    z-index: 2;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 2px solid #ff007f; // Кислотно-розовый акцент (Neon Pink)
+      transform: rotate(45deg);  // Разворачиваем в ромб
+      box-shadow: 0 0 8px #ff007f;
+    }
   }
 
   // back
