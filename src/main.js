@@ -93,6 +93,10 @@ class Game {
             this.#pairsFound++;
             this.#updateCounters();
             this.#resetTurn();
+
+            if (this.#pairsFound === this.#totalPairs) {
+                setTimeout(() => this.#handleVictory(), 500);
+            }
         } else {
             this.#isLockBoard = true;
             this.#mismatchTimeoutId = setTimeout(() => {
@@ -104,11 +108,40 @@ class Game {
         }
     }
 
+    #handleVictory() {
+        this.#leaderboardService.save(this.#movesCount);
+
+        const newGameModalBtn = ElementBuilder.createElement('button', { class: 'btn btn-primary' }, 'Новая игра');
+        const closeModalBtn = ElementBuilder.createElement('button', { class: 'btn btn-secondary' }, 'Закрыть');
+        const actionContainer = ElementBuilder.createElement('div', { class: 'modal-actions' }, newGameModalBtn, closeModalBtn);
+
+        const content = ElementBuilder.createElement('div', {},
+            ElementBuilder.createElement('p', {}, `Вы нашли все пары за ${this.#movesCount} ходов!`),
+            actionContainer
+        );
+
+        const victoryModal = new Modal('Победа!', content);
+
+        newGameModalBtn.addEventListener('click', () => {
+            victoryModal.close();
+            this.startNewGame();
+        });
+        closeModalBtn.addEventListener('click', () => victoryModal.close());
+        victoryModal.open();
+    }
+
     #resetTurn() {
         this.#firstCard = null;
         this.#secondCard = null;
         this.#isLockBoard = false;
     }
+
+    showLeaderboard = () => {
+        let leaderboardModal;
+        const content = this.#leaderboardService.renderTableElement(() => leaderboardModal.close());
+        leaderboardModal = new Modal('Таблица лидеров', content);
+        leaderboardModal.open();
+    };
 
     init() {
         const newGameHeaderBtn = ElementBuilder.createElement('button', { class: 'btn btn-primary' }, 'Новая игра');
@@ -126,21 +159,9 @@ class Game {
 
         newGameHeaderBtn.addEventListener('click', this.startNewGame);
 
+        leaderboardHeaderBtn.addEventListener('click', this.showLeaderboard);
+
         this.startNewGame();
-        // test
-        document.body.appendChild(appContainer);
-        this.startNewGame();
-        this.#leaderboardService.save(25);
-        this.#leaderboardService.save(15);
-        const testTable = this.#leaderboardService.renderTableElement(() => {
-            const testTable = this.#leaderboardService.renderTableElement(() => {
-                testModal.close();
-            });
-            const testModal = new Modal('Таблица лидеров (Тест)', testTable);
-            testModal.open();
-        });
-        document.body.append(testTable);
-        // ============================================================
     }
 }
 
