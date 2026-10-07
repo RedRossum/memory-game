@@ -2,6 +2,7 @@ import './main.scss'
 import ElementBuilder from "./ElementBuilder.js";
 import Leaderboard from './Leaderboard';
 import Modal from './Modal';
+const IMAGES = import.meta.glob('./images/*.png', { eager: true, as: 'url' });
 
 class Game {
     #cardData = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -54,9 +55,16 @@ class Game {
     };
 
     #createCardElement(value, index) {
+        const imgPath = IMAGES[`./images/${value}.png`];
+
+        const imgElement = ElementBuilder.createElement('img', {
+            src: imgPath,
+            alt: `Изображение пары ${value}`
+        });
+
         const cardInner = ElementBuilder.createElement('div', { class: 'card-inner' },
             ElementBuilder.createElement('div', { class: 'card-front' }),
-            ElementBuilder.createElement('div', { class: 'card-back' }, value)
+            ElementBuilder.createElement('div', { class: 'card-back' }, imgElement)
         );
 
         const cardElement = ElementBuilder.createElement('div', { class: 'game-card', 'aria-label': `Карточка ${index + 1}` }, cardInner);

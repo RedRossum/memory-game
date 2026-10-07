@@ -99,13 +99,12 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 12px;
-  aspect-ratio: 1 / 1;
   width: 100%;
 }
 
 .game-card {
   cursor: pointer;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   perspective: 1000px;
 
   .card-inner {
@@ -126,6 +125,8 @@ body {
 
   .card-front, .card-back {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
@@ -143,15 +144,18 @@ body {
             radial-gradient(#{var(--primary-color)} 15%, transparent 16%);
     background-size: 16px 16px;
     background-position: 0 0, 8px 8px;
+    z-index: 2
   }
 
   // back
   .card-back {
-    background-color: var(--bg-card-back);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
     transform: rotateY(180deg);
-    font-size: 2.2rem;
-    user-select: none;
-    border: 3px solid var(--primary-color);
   }
 }
 
