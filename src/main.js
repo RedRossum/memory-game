@@ -3,20 +3,46 @@ import ElementBuilder from "./ElementBuilder.js";
 
 class Game {
     #cardData = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+    #totalPairs = 8;
 
     //game state
     #firstCard = null;
     #secondCard = null;
     #isLockBoard = false;
+    #movesCount = 0;
+    #pairsFound = 0;
+    #mismatchTimeoutId = null;
     // DOM
     #movesCounterText = null;
     #pairsCounterText = null;
     #gameGridContainer = null;
 
+    #shuffle(array) {
+        const arr = [...array];
+        const cryptoArray = new Uint32Array(arr.length);
+        window.crypto.getRandomValues(cryptoArray);
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = cryptoArray[i] % (i + 1);
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    #updateCounters() {
+        this.#movesCounterText.textContent = `Ходов: ${this.#movesCount}`;
+        this.#pairsCounterText.textContent = `Найдено пар: ${this.#pairsFound} из ${this.#totalPairs}`;
+    }
+
     startNewGame = () => { //auto binds this
+        if (this.#mismatchTimeoutId) { clearTimeout(this.#mismatchTimeoutId); }
+        this.#movesCount = 0;
+        this.#pairsFound = 0;
+        this.#resetTurn();
+        this.#updateCounters();
         this.#gameGridContainer.replaceChildren();
 
-        this.#cardData.forEach((value, index) => {
+        const shuffledCards = this.#shuffle(this.#cardData);
+        shuffledCards.forEach((value, index) => {
             const cardElement = this.#createCardElement(value, index);
             this.#gameGridContainer.appendChild(cardElement);
         });
@@ -44,6 +70,10 @@ class Game {
             }
 
             this.#secondCard = cardElement;
+
+            this.#movesCount++;        // add counters
+            this.#updateCounters();
+
             this.#checkMatch();
         });
 
@@ -55,13 +85,16 @@ class Game {
         const { cardValue: secondValue } = this.#secondCard.dataset;
 
         if (firstValue === secondValue) {
+            this.#pairsFound++;
+            this.#updateCounters();
             this.#resetTurn();
-        } {
+        } else {
             this.#isLockBoard = true;
-            setTimeout(() => {
+            this.#mismatchTimeoutId = setTimeout(() => {
                 this.#firstCard.classList.remove('flipped');
                 this.#secondCard.classList.remove('flipped');
                 this.#resetTurn();
+                this.#mismatchTimeoutId = null;
             }, 1000);
         }
     }
