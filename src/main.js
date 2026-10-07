@@ -1,6 +1,7 @@
 import './main.scss'
 import ElementBuilder from "./ElementBuilder.js";
 import Leaderboard from './Leaderboard';
+import Modal from './Modal';
 
 class Game {
     #cardData = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -131,9 +132,12 @@ class Game {
         this.startNewGame();
         this.#leaderboardService.save(25);
         this.#leaderboardService.save(15);
-
         const testTable = this.#leaderboardService.renderTableElement(() => {
-            console.log("ok")
+            const testTable = this.#leaderboardService.renderTableElement(() => {
+                testModal.close();
+            });
+            const testModal = new Modal('Таблица лидеров (Тест)', testTable);
+            testModal.open();
         });
         document.body.append(testTable);
         // ============================================================
